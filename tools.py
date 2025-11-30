@@ -20,8 +20,6 @@ class GigaChatTokenReleaser:
     ) -> None:
 
         self.timezone_key = timezone_key
-        self.zoneinfo = ZoneInfo(timezone_key)
-
         self.over_ssh_tunnel = over_ssh_tunnel
         # for code running on your local machine -
         # after port forwarding, or SSH tunneling
@@ -40,13 +38,14 @@ class GigaChatTokenReleaser:
         return self.token.value
 
     @property
-    def timezone_key(self) -> str:
+    def timezone_key(self) -> TimezoneKey:
         return self._timezone_key
 
     @timezone_key.setter
     def timezone_key(self, value: TimezoneKey) -> None:
         assert value in TimezoneKey
         self._timezone_key = value
+        self.zoneinfo = ZoneInfo(value)
 
     @property
     def _token_expired(self) -> bool:

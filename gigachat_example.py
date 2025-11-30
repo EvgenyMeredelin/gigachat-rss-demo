@@ -32,6 +32,12 @@ while not isinstance(structured_output, Template):
         **default_settings
     )
 
+    # GigaChat re-init, timeit -n 100_000
+    # 56.1 μs ± 470 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+
+    # token_releaser.n_tokens_released
+    # 1
+
     gigachat = gigachat.with_structured_output(Template)
     structured_output = gigachat.invoke(prompt)
 
