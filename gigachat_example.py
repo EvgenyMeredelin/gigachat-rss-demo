@@ -7,7 +7,10 @@ from models import GigaChatSettings
 from tools import GigaChatTokenReleaser
 
 
-token_releaser = GigaChatTokenReleaser(TimezoneKey.ETC_GMT_3)
+token_releaser = GigaChatTokenReleaser(
+    timezone_key=TimezoneKey.ETC_GMT_3,  # Moscow
+    over_ssh_tunnel=True
+)
 
 prompt = "Составь меню русской кухни"
 fields = ["breakfast", "dinner", "supper"]
