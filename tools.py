@@ -12,24 +12,8 @@ from models import GigaChatAccessToken
 class GigaChatTokenReleaser:
     """GigaChat API access token releaser. """
 
-    def __init__(
-        self,
-        *,
-        timezone_key: TimezoneKey,
-        over_ssh_tunnel: bool = False
-    ) -> None:
-
+    def __init__(self, timezone_key: TimezoneKey) -> None:
         self.timezone_key = timezone_key
-        self.over_ssh_tunnel = over_ssh_tunnel
-        # for code running on your local machine -
-        # after port forwarding, or SSH tunneling
-        if over_ssh_tunnel:
-            port = env("TUNNEL_TARGET_PORT")
-            self.url = f"http://localhost:{port}/token"
-        # for code running on your virtual machine
-        else:
-            self.url = env("TOKEN_RELEASER_URL")
-
         self.n_tokens_released = 0
         self.token = self._release_token()
 
@@ -53,7 +37,7 @@ class GigaChatTokenReleaser:
 
     def _release_token(self) -> GigaChatAccessToken:
         response = requests.post(
-            url=self.url,
+            url=env("TOKEN_RELEASER_URL"),
             headers={"IAM-User-ID": env("IAM_USER_ID")}
         )
         self.n_tokens_released += 1
