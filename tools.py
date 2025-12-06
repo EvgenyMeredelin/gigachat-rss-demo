@@ -127,12 +127,12 @@ class GigaChunker(BaseChunker):
 
     def __init__(self, gigachat: GigaChat, text: str) -> None:
         self.gigachat = gigachat
-        self.text_batcher = TextChunker(text)
+        self.text_chunker = TextChunker(text)
 
     @cached_property
     def batches(self) -> Iterator:
         return constrained_batches(
-            iterable=self.text_batcher,
+            iterable=self.text_chunker,
             max_size=self.__class__._context_size,
             get_len=self._count_tokens
         )
